@@ -2,15 +2,15 @@
 /**
  * Plugin Name: 12FZ 商业版信号中台
  * Plugin URI:  https://ai.12fz.com
- * Description: 飞书机器人信号通信系统 — 商户授权管理，多端消息路由，心跳监控，任务调度
- * Version:     2.0.0
+ * Description: 飞书机器人信号通信系统 — 商户授权管理，多端消息路由，中继通信，任务调度
+ * Version:     2.1.0
  * Author:      12FZ 服务器技术
  * Text Domain: fz-signal
  */
 
 defined('ABSPATH') || exit;
 
-define('FZ_SIGNAL_VERSION', '2.0.0');
+define('FZ_SIGNAL_VERSION', '2.1.0');
 define('FZ_SIGNAL_DIR', plugin_dir_path(__FILE__));
 define('FZ_SIGNAL_URL', plugin_dir_url(__FILE__));
 
@@ -65,7 +65,7 @@ function fz_signal_create_tables() {
         platform        VARCHAR(50) DEFAULT 'feishu',
         tags            TEXT,
         status          VARCHAR(20) DEFAULT 'active',
-        last_heartbeat  DATETIME,
+        last_seen       DATETIME,                         -- 最近一次通过中继通信时间
         config          TEXT,
         created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (merchant_id) REFERENCES {$wpdb->prefix}fz_merchants(id) ON DELETE CASCADE,

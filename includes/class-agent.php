@@ -114,13 +114,13 @@ class FZ_Signal_Agent {
     }
 
     /**
-     * 更新心跳时间
+     * 更新中继通信时间
      */
-    public function update_heartbeat($id) {
+    public function update_last_seen($id) {
         global $wpdb;
         return $wpdb->update(
             $wpdb->prefix . 'fz_agents',
-            ['last_heartbeat' => current_time('mysql')],
+            ['last_seen' => current_time('mysql')],
             ['id' => $id]
         );
     }
@@ -139,16 +139,16 @@ class FZ_Signal_Agent {
     }
 
     /**
-     * 获取离线 Agent
+     * 获取中继超时 Agent
      */
-    public function get_offline($timeout_minutes = 2) {
+    public function get_timeout($timeout_minutes = 2) {
         global $wpdb;
         $deadline = date('Y-m-d H:i:s', time() - $timeout_minutes * 60);
         return $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT a.*, m.merchant_name FROM {$wpdb->prefix}fz_agents a
                 LEFT JOIN {$wpdb->prefix}fz_merchants m ON a.merchant_id = m.id
-                WHERE a.last_heartbeat IS NULL OR a.last_heartbeat < %s",
+                WHERE a.last_seen IS NULL OR a.last_seen < %s",
                 $deadline
             )
         );

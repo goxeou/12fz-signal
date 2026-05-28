@@ -275,7 +275,7 @@ class FZ_Signal_Admin {
                             <select name="trigger_type">
                                 <option value="message_match">关键词匹配</option>
                                 <option value="cron">定时触发</option>
-                                <option value="agent_offline">Agent 离线</option>
+                                <option value="agent_timeout">Agent 中继超时</option>
                                 <option value="webhook">Webhook</option>
                             </select>
                         </td>

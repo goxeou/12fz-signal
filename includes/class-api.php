@@ -56,9 +56,9 @@ class FZ_Signal_API {
             'callback'            => [$this, 'get_agents'],
             'permission_callback' => [$this, 'auth_merchant'],
         ]);
-        register_rest_route('fz-signal/v1', '/agents/(?P<id>\d+)/heartbeat', [
+        register_rest_route('fz-signal/v1', '/agents/(?P<id>\d+)/status', [
             'methods'             => 'GET',
-            'callback'            => [$this, 'agent_heartbeat_status'],
+            'callback'            => [$this, 'agent_status'],
             'permission_callback' => [$this, 'auth_merchant'],
         ]);
 
@@ -68,14 +68,14 @@ class FZ_Signal_API {
             'callback'            => [$this, 'register_agent'],
             'permission_callback' => [$this, 'auth_master'],
         ]);
-        register_rest_route('fz-signal/v1', '/agents/(?P<id>\d+)/heartbeat', [
+        register_rest_route('fz-signal/v1', '/agents/(?P<id>\d+)/ping', [
             'methods'             => 'POST',
-            'callback'            => [$this, 'report_heartbeat'],
+            'callback'            => [$this, 'report_ping'],
             'permission_callback' => [$this, 'auth_agent'],
         ]);
-        register_rest_route('fz-signal/v1', '/agents/offline', [
+        register_rest_route('fz-signal/v1', '/agents/timeout', [
             'methods'             => 'GET',
-            'callback'            => [$this, 'offline_agents'],
+            'callback'            => [$this, 'timeout_agents'],
             'permission_callback' => [$this, 'auth_master'],
         ]);
 
@@ -338,7 +338,7 @@ class FZ_Signal_API {
         ];
     }
 
-    public function agent_heartbeat_status($request) {
+    public function agent_status($request) {
         $merchant = fz_signal_get_merchant();
         if (!$merchant) return new WP_Error('auth_failed', '认证失败', ['status' => 401]);
 
@@ -347,14 +347,14 @@ class FZ_Signal_API {
             return new WP_Error('not_found', 'Agent 不存在', ['status' => 404]);
         }
 
-        $offline_threshold = time() - 120;
-        $is_online = $agent->last_heartbeat && strtotime($agent->last_heartbeat) > $offline_threshold;
+        $timeout_threshold = time() - 120;
+        $is_online = $agent->last_seen && strtotime($agent->last_seen) > $timeout_threshold;
 
         return [
-            'agent_id'      => $agent->id,
-            'agent_name'    => $agent->agent_name,
-            'status'        => $is_online ? 'online' : 'offline',
-            'last_heartbeat' => $agent->last_heartbeat,
+            'agent_id'   => $agent->id,
+            'agent_name' => $agent->agent_name,
+            'status'     => $is_online ? 'online' : 'timeout',
+            'last_seen'  => $agent->last_seen,
         ];
     }
 
@@ -428,15 +428,15 @@ class FZ_Signal_API {
         return ['status' => 'ok', 'agent_id' => $result];
     }
 
-    public function report_heartbeat($request) {
+    public function report_ping($request) {
         $id = intval($request->get_param('id'));
-        $this->agent->update_heartbeat($id);
+        $this->agent->update_last_seen($id);
         return ['status' => 'ok', 'agent_id' => $id];
     }
 
-    public function offline_agents() {
-        $offline = $this->agent->get_offline();
-        return ['offline_count' => count($offline), 'agents' => $offline];
+    public function timeout_agents() {
+        $timeout = $this->agent->get_timeout();
+        return ['timeout_count' => count($timeout), 'agents' => $timeout];
     }
 
     // ═════════════════════════════════════════════

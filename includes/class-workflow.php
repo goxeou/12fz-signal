@@ -18,7 +18,7 @@ class FZ_Signal_Workflow {
             return new WP_Error('invalid', '缺少必填字段');
         }
 
-        $allowed_triggers = ['message_match', 'cron', 'webhook', 'agent_offline'];
+        $allowed_triggers = ['message_match', 'cron', 'webhook', 'agent_timeout'];
         if (!in_array($trigger_type, $allowed_triggers)) {
             return new WP_Error('invalid_trigger', '无效的触发类型');
         }
