@@ -1,0 +1,17 @@
+[Unit]
+Description=12FZ Signal Core Middleware
+After=network.target redis-server.service mysql.service
+Wants=redis-server.service mysql.service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/fz-signal-core --config /etc/fz-signal-core/config.yaml
+WorkingDirectory=/etc/fz-signal-core
+Restart=always
+RestartSec=5
+User=root
+LimitNOFILE=65536
+Environment=MASTER_KEY=change-me-in-production
+
+[Install]
+WantedBy=multi-user.target

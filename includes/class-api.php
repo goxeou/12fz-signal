@@ -269,7 +269,7 @@ class FZ_Signal_API {
         global $wpdb;
         $messages = $wpdb->get_results($wpdb->prepare(
             "SELECT m.id, m.message_id, a.agent_name, m.platform, m.sender, m.text,
-                    m.msg_type, m.is_read, m.acked, m.created_at
+                    m.msg_type, m.category, m.is_read, m.acked, m.created_at
              FROM {$wpdb->prefix}fz_messages m
              JOIN {$wpdb->prefix}fz_agents a ON m.agent_id = a.id
              WHERE m.merchant_id = %d AND m.acked = 0
@@ -368,10 +368,17 @@ class FZ_Signal_API {
         $text      = sanitize_textarea_field($request->get_param('text'));
         $msg_id    = sanitize_text_field($request->get_param('message_id'));
         $platform  = sanitize_text_field($request->get_param('platform') ?: 'feishu');
+        $category  = sanitize_text_field($request->get_param('category') ?: 'normal');
         $created   = sanitize_text_field($request->get_param('created_at'));
 
         if (!$bot_name || !$text) {
             return new WP_Error('invalid', '缺少 bot_name 或 text', ['status' => 400]);
+        }
+
+        // 验证分类
+        $valid_categories = ['normal', 'collaboration', 'project_plan'];
+        if (!in_array($category, $valid_categories)) {
+            $category = 'normal';
         }
 
         global $wpdb;
@@ -401,6 +408,7 @@ class FZ_Signal_API {
             'sender'      => $sender ?: 'unknown',
             'text'        => $text,
             'msg_type'    => sanitize_text_field($request->get_param('msg_type') ?: 'text'),
+            'category'    => $category,
             'created_at'  => $created ?: current_time('mysql'),
         ]);
 

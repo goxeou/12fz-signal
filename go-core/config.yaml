@@ -1,0 +1,27 @@
+server:
+  host: "0.0.0.0"
+  port: 8080
+  read_timeout: 30s
+  write_timeout: 30s
+
+redis:
+  address: "127.0.0.1:6379"
+  password: ""
+  db: 0
+
+database:
+  host: "127.0.0.1"
+  port: 3306
+  user: "wp_12fz_dev"
+  password: "WpDev2026"
+  dbname: "wp_12fz_dev"
+  table_prefix: "wp_"
+
+auth:
+  master_key: "change-me-in-production"
+  api_key_cache_ttl: 300
+
+relay:
+  timeout_seconds: 120
+  check_interval: 30
+  stream_max_length: 10000

@@ -84,6 +84,7 @@ function fz_signal_create_tables() {
         sender        VARCHAR(100) NOT NULL,
         text          TEXT NOT NULL,
         msg_type      VARCHAR(20) DEFAULT 'text',
+        category      VARCHAR(20) DEFAULT 'normal',       -- normal | collaboration | project_plan
         is_read       TINYINT(1) DEFAULT 0,
         tags          TEXT,
         created_at    DATETIME NOT NULL,
