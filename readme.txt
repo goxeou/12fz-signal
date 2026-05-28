@@ -1,4 +1,4 @@
-=== 12FZ Bot Signal ===
+=== 12FZ 商业版信号中台 ===
 Contributors: 12fz
 Tags: feishu, bot, signal, api, merchant
 Requires at least: 5.0

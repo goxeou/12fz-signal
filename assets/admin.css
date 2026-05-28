@@ -1,13 +1,56 @@
-/* 信号系统管理页面样式 */
-.fz-signal-wrap h1 { margin-bottom: 10px; }
+/* 信号中台管理页面样式 v2.0.0 */
+
+/* ── Layout ── */
+.fz-signal-wrap h1 { margin-bottom: 10px; font-size: 1.6em; }
 .fz-signal-wrap h2 { margin-top: 30px; font-size: 1.3em; }
-.fz-signal-form { background: #fff; padding: 20px; border: 1px solid #e5e5e5; border-radius: 4px; max-width: 500px; }
+.fz-signal-wrap hr { margin: 25px 0; }
+
+/* ── 表单 ── */
+.fz-signal-form { background: #fff; padding: 20px; border: 1px solid #e5e5e5; border-radius: 4px; max-width: 600px; }
 .fz-signal-form .form-table th { width: 120px; }
-.fz-signal-form .form-table input[type="text"] { width: 100%; }
+.fz-signal-form .form-table input[type="text"],
+.fz-signal-form .form-table input[type="email"],
+.fz-signal-form .form-table select { width: 100%; }
+.fz-signal-form .form-table textarea { width: 100%; }
+
+/* ── 筛选 ── */
+.fz-filter { margin: 15px 0; padding: 10px; background: #f0f0f1; border-radius: 4px; }
+.fz-filter label { margin-right: 10px; }
+.fz-filter input[type="number"] { width: 100px; }
+
+/* ── 表格 ── */
 .fz-signal-table { margin-top: 10px; }
-.fz-api-key { font-family: monospace; font-size: 11px; background: #f0f0f1; padding: 2px 6px; border-radius: 3px; }
-.fz-unread-badge { background: #d63638; color: #fff; padding: 1px 8px; border-radius: 10px; font-weight: bold; font-size: 12px; }
+.fz-signal-table th { white-space: nowrap; }
+
+/* ── Key ── */
+.fz-key { font-family: monospace; font-size: 11px; background: #f0f0f1; padding: 2px 6px; border-radius: 3px; }
+
+/* ── 徽标 ── */
+.fz-badge { display: inline-block; background: #d63638; color: #fff; padding: 1px 8px; border-radius: 10px; font-weight: bold; font-size: 11px; margin-right: 4px; }
+.fz-badge-warn { background: #f0ad4e; }
+
+/* ── 状态 ── */
 .fz-status-active { color: #46b450; font-weight: 500; }
 .fz-status-inactive { color: #999; }
 .fz-status-suspended { color: #d63638; }
-.fz-signal-wrap hr { margin: 25px 0; }
+.fz-status-paused { color: #f0ad4e; }
+.fz-status-archived { color: #999; }
+
+/* ── 套餐 ── */
+.fz-plan { display: inline-block; padding: 1px 8px; border-radius: 3px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+.fz-plan-basic { background: #e5f4ff; color: #007cba; }
+.fz-plan-pro { background: #f0e6ff; color: #7b1fa2; }
+.fz-plan-enterprise { background: #fff3cd; color: #856404; }
+
+/* ── 消息预览 ── */
+.fz-msg-preview { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── 卡片（计费） ── */
+.fz-cards { display: flex; gap: 20px; margin: 20px 0; }
+.fz-card { background: #fff; border: 1px solid #e5e5e5; border-radius: 6px; padding: 20px 30px; flex: 1; text-align: center; }
+.fz-card-value { font-size: 2em; font-weight: bold; color: #007cba; }
+.fz-card-label { font-size: 0.9em; color: #666; margin-top: 5px; }
+
+/* ── Tablenav ── */
+.tablenav { margin-top: 15px; }
+.tablenav-pages { display: flex; gap: 5px; }
