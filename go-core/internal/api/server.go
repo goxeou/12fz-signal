@@ -2,11 +2,11 @@ package api
 
 import (
 	"crypto/subtle"
+	"context"
 	"database/sql"
 	"fmt"
 	"log/slog"
 	"net/http"
-	"strings"
 	"sync"
 	"time"
 
@@ -78,7 +78,7 @@ func (s *Server) withAuth(next http.HandlerFunc, level authLevel) http.HandlerFu
 				writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "missing X-API-Key"})
 				return
 			}
-			merchantID, err := s.lookupAPIKey(r.Context(), key)
+			merchantID, err := s.lookupAPIKey(r, key)
 			if err != nil || merchantID == 0 {
 				writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "invalid API key"})
 				return
@@ -99,7 +99,7 @@ func (s *Server) withAuth(next http.HandlerFunc, level authLevel) http.HandlerFu
 				writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "missing auth key"})
 				return
 			}
-			merchantID, err := s.lookupAPIKey(r.Context(), key)
+			merchantID, err := s.lookupAPIKey(r, key)
 			if err != nil || merchantID == 0 {
 				writeJSON(w, http.StatusUnauthorized, map[string]string{"error": "invalid auth key"})
 				return

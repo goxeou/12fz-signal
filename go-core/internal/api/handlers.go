@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/12fz/fz-signal-core/internal/models"
-	"github.com/redis/go-redis/v9"
 )
 
 // ── Public ──

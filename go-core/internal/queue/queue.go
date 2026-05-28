@@ -125,5 +125,5 @@ func (c *Consumer) ack(ctx context.Context, stream, msgID string) {
 }
 
 func TrimStream(ctx context.Context, rdb *redis.Client, maxLen int64) error {
-	return rdb.XTrimApprox(ctx, StreamKey, maxLen).Err()
+	return rdb.XTrimMaxLenApprox(ctx, StreamKey, maxLen, 0).Err()
 }
